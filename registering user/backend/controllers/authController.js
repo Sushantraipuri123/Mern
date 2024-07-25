@@ -1,9 +1,21 @@
-var db = require('../models/user.models');
+var db = require('../models/user.model');
 
 module.exports = {
-    createUSer : async (req,res)=>{
+
+    createUser : async (req,res)=>{
         try {
-            const user = new db.create({
+
+            const exsistingUser = await db.findOne({email:req.body.email});
+
+            if(exsistingUser){
+                return res.status(400).json({
+                    success:false,
+                    status:400,
+                    message:"Email already exists",
+                })
+            }
+            
+            const user = await  db.create({
                 username:req.body.username,
                 email:req.body.email,
                 phone:req.body.phone,
