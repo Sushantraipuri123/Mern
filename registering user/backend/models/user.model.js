@@ -1,31 +1,47 @@
 var mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema(
     {
-        username:{
+        username: {
             type: String,
             required: true,
         },
-        email:{
+        email: {
             type: String,
-            required: true,   
-         },
-         phone:{
+            required: true,
+        },
+        phone: {
             type: String,
-            required: true,   
-         },
-         password:{
+            required: true,
+        },
+        password: {
             type: String,
-            required: true,   
-         },
-         isAdmin:{
+            required: true,
+        },
+        isAdmin: {
             type: Boolean,
             default: false,
-         }
-},
+        }
+    },
     {
         timestamps: true
     })
     ;
 
-    module.exports = mongoose.model('User',userSchema);
+
+    // ===============used pre function as a middlewere function to hash my pass word 
+    
+    userSchema.pre('save', async function(next){
+       console.log('pre data', this);
+
+       if(!this.isModified('password')){
+            return next();
+       }
+
+       const user = this;
+       const saltRounds = 10;
+       const hashedPsssword = await bcrypt.hash(user.password , saltRounds);
+       user.password = hashedPsssword;
+    })
+
+module.exports = mongoose.model('User', userSchema);
