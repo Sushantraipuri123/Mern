@@ -7,5 +7,7 @@ router.post('/createUser',authControler.createUser);
 
 router.get('/getUser',authControler.getUser);
 
+router.post('/loginUser',authControler.loginUser);
+
 
 module.exports = router;

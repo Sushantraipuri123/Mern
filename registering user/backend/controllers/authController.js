@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 
 module.exports = {
-
+// ======================= user register logic =================
     createUser : async (req,res)=>{
         try {
 
@@ -71,5 +71,47 @@ module.exports = {
                 error: error.message
             });
         }
+    },
+
+
+// ======================= user login logic =================
+
+loginUser : async (req,res)=>{
+    try {
+        const {email , password} = req.body;
+        const userExist = await db.findOne({email});
+
+        if(!userExist){
+            return res.status(404).json({
+                success:false,
+                status:404,
+                message:"Invalid Cridential",
+            })
+        }
+
+        const user = await  bcrypt.compare(password, userExist.password)
+
+        if(user){
+            res.status(200).json({
+                success:true,
+                status:200,
+                message:"Login Sucessfull",
+                body:user,
+                token : await userExist.generateToken(),
+                userId : user._id.toString()
+            })
+        }else{
+            return res.status(401).json({
+                success:false,
+                status:401,
+                message:"Invalid Cridential",
+            })  
+        }
+
+
+    } catch (error) {
+        res.status(500).json("internal error", error);
     }
+}
+
 }
