@@ -44,7 +44,9 @@ module.exports = {
                 success:true,
                 status:200,
                 message:"User Created ",
-                body:user
+                body:user,
+                token : await user.generateToken(),
+                userId : user._id.toString()
             })
         } catch (error) {
             console.log(error);
