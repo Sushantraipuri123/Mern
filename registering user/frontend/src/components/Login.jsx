@@ -21,7 +21,7 @@ function Login() {
                 reset();
 
                 // Navigate to the home page
-                navigate('/'); // Use navigate instead of <Navigate />
+                navigate('/'); 
             })
             .catch((err) => {
                 console.error(err);

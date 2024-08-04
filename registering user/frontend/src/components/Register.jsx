@@ -3,10 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../store/Auth';
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+
 function Register(){
     // Destructure methods from useForm
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
+  const navigate = useNavigate();
   // Form submission handler
 
   const {storeTokenInLocalStorage} = useAuth()
@@ -17,6 +19,8 @@ function Register(){
         alert('User created successfully!');
         storeTokenInLocalStorage(res.data.token)
         reset(); // Reset the form
+        // Navigate to the home page
+        navigate('/');
       })
       .catch((err) => {
         console.error(err)
