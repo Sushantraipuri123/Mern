@@ -34,5 +34,49 @@ module.exports ={
         } catch (error) {
             console.log(error);
         }
+    },
+
+    loginUser : async (req,res)=>{
+        try {
+            const {email, password} = req.body
+
+            const userExist = await db.findOne({email})
+
+            if(!userExist){
+                return res.status(400).json({
+                    success:false,
+                    status:400,
+                    message:"invalid credentials"
+                })
+            }
+
+                const isPasswordMatch = await bcrypt.compare(password , userExist.password)
+
+                if(isPasswordMatch){
+                    //generate token 
+                    const token = await userExist.generateToken();
+                    return res.status(200).json({
+                        success: true,
+                        status: 200,
+                        message: "Login Successful",
+                        token: token,
+                        userId: userExist._id.toString()
+                    });
+                }  else {
+                    return res.status(400).json({
+                        success: false,
+                        status: 400,
+                        message: "Invalid Credentials",
+                    });
+                }
+                
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                status: 500,
+                message: "Internal Server Error",
+                error: error.message // Or error.toString() if you prefer
+            });
+        }
     }
 }
