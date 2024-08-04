@@ -76,42 +76,50 @@ module.exports = {
 
 // ======================= user login logic =================
 
-loginUser : async (req,res)=>{
+loginUser: async (req, res) => {
     try {
-        const {email , password} = req.body;
-        const userExist = await db.findOne({email});
+        const { email, password } = req.body;
+        const userExist = await db.findOne({ email });
 
-        if(!userExist){
-            return res.status(404).json({
-                success:false,
-                status:404,
-                message:"Invalid Cridential",
-            })
+        if (!userExist) {
+            return res.status(400).json({
+                success: false,
+                status: 400,
+                message: "Invalid Credentials",
+            });
         }
 
-        const user = await  bcrypt.compare(password, userExist.password)
+        const isPasswordMatch = await bcrypt.compare(password, userExist.password);
 
-        if(user){
-            res.status(200).json({
-                success:true,
-                status:200,
-                message:"Login Sucessfull",
-                body:user,
-                token : await userExist.generateToken(),
-                userId : user._id.toString()
-            })
-        }else{
-            return res.status(401).json({
-                success:false,
-                status:401,
-                message:"Invalid Cridential",
-            })  
+        if (isPasswordMatch) {
+            // Generate token
+            const token = await userExist.generateToken();
+
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: "Login Successful",
+                token: token,
+                userId: userExist._id.toString()
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                status: 400,
+                message: "Invalid Credentials",
+            });
         }
-
 
     } catch (error) {
-        res.status(500).json("internal error", error);
+        // Return error with status 500 and include error details
+        return res.status(500).json({
+            success: false,
+            status: 500,
+            message: "Internal Server Error",
+            error: error.message // Or error.toString() if you prefer
+        });
     }
 }
+
 
 }
