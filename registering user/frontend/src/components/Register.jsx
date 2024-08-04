@@ -2,17 +2,20 @@ import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-
+import { useAuth } from '../store/Auth';
 function Register(){
     // Destructure methods from useForm
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   // Form submission handler
+
+  const {storeTokenInLocalStorage} = useAuth()
   const onSubmit = (data) => {
     axios.post('/users/createUser', data)
       .then((res) => {
         console.log('User created successfully:', res.data);
         alert('User created successfully!');
+        storeTokenInLocalStorage(res.data.token)
         reset(); // Reset the form
       })
       .catch((err) => {
