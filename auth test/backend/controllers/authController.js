@@ -55,7 +55,7 @@ module.exports ={
                 if(isPasswordMatch){
                     //generate token 
                     const token = await userExist.generateToken();
-                    return res.status(200).json({
+                    return res.status(200).json({ 
                         success: true,
                         status: 200,
                         message: "Login Successful",
@@ -76,6 +76,32 @@ module.exports ={
                 status: 500,
                 message: "Internal Server Error",
                 error: error.message // Or error.toString() if you prefer
+            });
+        }
+    },
+
+     findUser : async (req, res) => {
+        try {
+            const user = await db.findOne({
+                email: req.body.email
+            });
+            
+            if (user) {
+                res.status(200).json({
+                    success: true,
+                    status: 200,
+                    message: "User found",
+                    body: user
+                });
+            }else{
+                return res.status(400).json({message:"user not found"})
+            }
+          
+        } catch (error) {
+            console.error("Error finding user", error);
+            res.status(500).json({
+                success: false,
+                message: "Internal server error"
             });
         }
     }
