@@ -15,7 +15,9 @@ function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/about">About</Nav.Link>
+
                         {isLoggedin ? (
                             <Nav.Link as={Link} to="/logout" o>Logout</Nav.Link>
                         ) : (

@@ -8,6 +8,7 @@ import Register from './components/Register';
 import Login from './components/Login.jsx';
 import { AuthProvider } from './store/Auth.jsx';
 import Logout from './components/Logout.jsx';
+import About from './components/About.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='register' element={<Register/>} />
           <Route path='login' element={<Login/>} />
           <Route path='logout' element={<Logout/>} />
+          <Route path='about' element={<About/>} />
         </Route>
       </Routes>
     </Router>

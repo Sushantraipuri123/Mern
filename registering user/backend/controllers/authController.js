@@ -119,6 +119,20 @@ loginUser: async (req, res) => {
             error: error.message // Or error.toString() if you prefer
         });
     }
+},
+
+
+// ======================= user data logic to send user data in form =================
+
+ 
+user : async (req, res)=>{
+    try {
+        const userData = res.user;
+        console.log(userData);
+        return res.status(200).json({msg:userData})
+    } catch (error) {
+        console.log("error from user route", error);
+    }
 }
 
 
