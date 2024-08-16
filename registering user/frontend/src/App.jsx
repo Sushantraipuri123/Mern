@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MyProducts from './components/MyProducts.jsx';
 function App() {
 
   const { isLoggedin } = useAuth();
@@ -21,6 +22,7 @@ function App() {
           <Route path='login' element={<Login/>} />
           <Route path='logout' element={<Logout/>} />
           <Route path='about' element={<About/>} />
+          <Route path='myProducts' element={<MyProducts/>} />
           <Route path="admin" element={isLoggedin ? <Admin /> : <Login />} />
         </Route>
       </Routes>

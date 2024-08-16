@@ -125,13 +125,15 @@ loginUser: async (req, res) => {
 // ======================= user data logic to send user data in form =================
 
  
-user : async (req, res)=>{
+user: async (req, res) => {
     try {
-        const userData = res.user;
+        // Corrected to use req.user instead of res.user
+        const userData = req.user;
         console.log(userData);
-        return res.status(200).json({msg:userData})
+        return res.status(200).json({ userData });
     } catch (error) {
-        console.log("error from user route", error);
+        console.log("Error from user route:", error);
+        return res.status(500).json({ msg: "Internal Server Error" });
     }
 }
 

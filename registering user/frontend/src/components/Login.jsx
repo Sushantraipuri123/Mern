@@ -22,7 +22,7 @@ function Login() {
                 reset();
 
                 // Navigate to the home page
-                navigate('/admin');
+                // navigate('/admin');
             })
             .catch((err) => {
                 console.error(err);
