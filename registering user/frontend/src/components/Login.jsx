@@ -1,10 +1,11 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { useAuth } from "../store/Auth";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function Login() {
+
+
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { storeTokenInLocalStorage } = useAuth();
     const navigate = useNavigate(); // Initialize useNavigate hook
@@ -21,7 +22,7 @@ function Login() {
                 reset();
 
                 // Navigate to the home page
-                navigate('/'); 
+                navigate('/admin');
             })
             .catch((err) => {
                 console.error(err);

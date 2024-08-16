@@ -22,7 +22,7 @@ function Home() {
     return (
         <>
             <div className="m-5">
-                This is home
+                This is home testing github
             </div>
 
             <div className="container">
