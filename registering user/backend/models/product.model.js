@@ -3,11 +3,15 @@ var mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     productName:{
         type: String,
-        required: true
+        // required: true
     },
     productPrice:{
         type: Number,
-        required: true
+        // required: true
+    },
+    productImage:{
+        type: String,
+        // required: true,
     },
     createdBy:{
         type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +24,8 @@ productSchema.pre('save', async function(next) {
     if (this.isModified('createdBy')) {
         const user = await mongoose.model('User').findById(this.createdBy);
         if (user) {
-            this.creatorName = user.name; // assuming the User model has a name field
+            console.log('User Data:', user); // Log user data here
+            this.creatorName = user.username; 
             this.creatorId = user._id;
         }
     }
